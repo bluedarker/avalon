@@ -87,10 +87,11 @@ function byPolling(dom) {
     avalon.Array.ensure(checkDisposeNodes, dom)
     if (!checkID) {
         checkID = setInterval(function () {
-            for (var i = 0, el; el = checkDisposeNodes[i++]; ) {
+            for (var i = 0, el; el = checkDisposeNodes[i]; ) {
                 if (false === fireDisposeHook(el)) {
                     avalon.Array.removeAt(checkDisposeNodes, i)
-                    --i
+                }else{
+                    i++
                 }
             }
             if (checkDisposeNodes.length == 0) {
@@ -114,7 +115,8 @@ function fireDisposeHook(el) {
         var wid = el.getAttribute('wid')
         var docker = avalon.resolvedComponents[ wid ]
         var vm = docker.vmodel
-        var cached = !!docker.cached 
+        var cached = !!docker.cached
+
         docker.vmodel.$fire("onDispose", {
             type: 'dispose',
             target: el,
