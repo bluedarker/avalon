@@ -29,7 +29,16 @@ module.exports = {
         library: 'avalon'
     }, //页面引用的文件
     plugins: [
-      new webpack.BannerPlugin('built in '+snow+' version '+ v+' by 司徒正美')
+      new webpack.BannerPlugin('built in '+snow+' version '+ v+' by 司徒正美'),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin(),
+
+        new webpack.optimize.DedupePlugin()
     ],
     module: {
         loaders: [
